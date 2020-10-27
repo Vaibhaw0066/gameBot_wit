@@ -22,7 +22,7 @@ pip install machaao
 pip install wit or pip install pywit
 ```
 
-#### Clone basic gameBot from github
+#### Clone gameBot from github
 ```bash
 git clone https://github.com/machaao/gamebot.git
 ```
