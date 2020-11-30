@@ -22,7 +22,7 @@ pip install machaao
 pip install wit or pip install pywit
 ```
 
-#### Clone gameBot from github
+#### Clone basic gameBot from github
 ```bash
 git clone https://github.com/machaao/gamebot.git
 ```
@@ -47,7 +47,7 @@ You can go with defalut setting.
 # Create your app at wit.ai and train it for you favourite intent
 # navigate to setting of your bot and copy Server Access Token
 
-client=wit("Server Access Token") # Copy Access token from wit.ai/app/<app_ID>/setting
+client=wit("Server_Access_Token") # Copy Access token from wit.ai/app/<app_ID>/setting
 
 or
 
@@ -57,7 +57,7 @@ You can go with default access token
 
 ### Run the following for machaao to do it's magic.
 ```bash
-machaao run -p 5000 -t [GAMEBOT-TOKEN]
+machaao run -t [GAMEBOT-TOKEN]
 ```
 
 Your bot should now be available @ [https://dev.messengerx.io/<chatbot_name>] to send a message to your chatbot.

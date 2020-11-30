@@ -1,6 +1,6 @@
 # Bot Template: A simple sample echo bot to get started.
 # Platform: MessengerX.io
-# Author: @Abhishek Raj
+# Author: @Abhishek Raj, Kumar Vaibhaw
 # pip3 freeze > requirements.txt
 from flask import request, jsonify, Response
 from flask_api import FlaskAPI, status
@@ -8,16 +8,29 @@ import requests
 import re
 import json
 import argparse
+import os
+import  random
 
 from machaao import request_handler, send_message
 
-from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,single_game_payload,five_game_payload
+from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,single_game_payload,\
+    five_game_payload,msg_with_quick_reply_and_GIF_payload,category_card_payload
 
-from get_games import update_game_data,top_5_games,single_game
+from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category,get_five_games_by_keyword
+
+# Wit Server accesss token
+SERVER_ACCESS_TOKEN  = 'FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6'
+
+
+# Get your MESSENGERX_API_TOKEN from https://portal.messengerx.io
+MESSENGERX_API_TOKEN = '4e68be40-c2c3-11ea-895b-990de3d33865'
+
+# For development use https://ganglia-dev.machaao.com
+MESSENGERX_BASE_URL = 'https://ganglia-dev.machaao.com'
 
 from wit import  Wit
-def get_response(msg):
-    client=Wit('FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6')
+def get_response(msg,SERVER_ACCESS_TOKEN):
+    client=Wit(SERVER_ACCESS_TOKEN)
     response=client.message(msg)
 
     response=  (list(response['intents']))
@@ -40,11 +53,6 @@ def get_response(msg):
 
 app = FlaskAPI(__name__)
 
-# Get your MESSENGERX_API_TOKEN from https://portal.messengerx.io
-MESSENGERX_API_TOKEN = "4e68be40-c2c3-11ea-895b-990de3d33865"
-
-# For development use https://ganglia-dev.machaao.com
-MESSENGERX_BASE_URL = "https://ganglia-dev.machaao.com"
 
 
 @app.route("/health")
@@ -75,7 +83,7 @@ def messageHandler():
     # Currently server set to echo.
     # Write your code here.
 
-    response = get_response(message)
+    response = get_response(message,SERVER_ACCESS_TOKEN)
     print("message ",message)
     # print(list(response.keys()), "   ->   game_mode" in (list(response.keys())))
     print(response)
@@ -83,10 +91,13 @@ def messageHandler():
     payload = ""
 
     # intent list = [greet, game_mode, latest_game, top_5_games, goodbye]
+    category = ['Arcade','Puzzle','Logic','Sports','Racing','Strategy','Adventure','Action','Featured']
 
     if('greet' in list(response.keys())):
-        payload=  msg_with_quick_reply_payload(user_id,"Hello, I am gameBot, would you like to play some games ?","yes","no")
-
+        from gif_Database import hello
+        payload=  msg_with_quick_reply_and_GIF_payload(user_id,"Hello, I am gameBot, would you like to play some games ?","yes","no",hello[random.randint(0,len(hello)-1)])
+    elif ('category' in list(response.keys())):
+        payload= category_card_payload(user_id)
     elif ("affirm" in list(response.keys())):
         payload = single_game_payload(user_id,single_game())
 
@@ -96,15 +107,19 @@ def messageHandler():
     elif ('game_mode' in list(response.keys())):
         payload = five_game_payload(user_id,top_5_games())
 
-    elif ("lates_game" in list(response.keys())):
+    elif ("latest_game" in list(response.keys())):
         payload=five_game_payload(user_id,top_5_games())
+
+    elif is_category(category,response.keys()):
+        print(response.keys())
+        payload=five_game_payload(user_id,games_by_category(is_category(category,response.keys())))
 
     elif('goodbye' in list(response.keys())):
         payload=msg_with_quick_reply_payload(user_id,"B,bye Have a nice day !","Start again","Exit")
+    # else:
+    #     payload=five_game_payload(user_id,get_five_games_by_keyword(response.keys()))
 
     print(f"sending message -> using token: {MESSENGERX_API_TOKEN}, base_url: {MESSENGERX_BASE_URL}")
-
-
     # Read more about APIs here: https://ganglia.machaao.com/api-docs/#/
     # or here https://messengerx.readthedocs.io/en/latest/ or here
     # https://github.com/machaao/machaao-py
@@ -114,22 +129,12 @@ def messageHandler():
         "success": True,
         "message": response.text,
     }
-
     return Response(
         mimetype="application/json",
         response=json.dumps(output_payload),
-        status=200,
-    )
-
+        status=200,)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='A simple Machaao Chatbot')
-    parser.add_argument('-p', '--port', type=int, default=False, help='Port number of the local server')
-    # parser.add_argument
-    args = parser.parse_args()
-    if args.port:
-        _port = args.port
-        print(f"starting at {_port}")
-        app.run(host="0.0.0.0", port=_port)
-    else:
-        app.run(host="0.0.0.0")
+    _port = 5000
+    print(f"starting at {_port}")
+    app.run(host="0.0.0.0", port=_port)
