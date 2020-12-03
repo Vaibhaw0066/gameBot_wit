@@ -1,4 +1,6 @@
 
+
+
 def text_message_payload(user_id,message):
     text_messsage={"users":   [user_id],
                "message": {"text": message},
@@ -53,31 +55,7 @@ def linked_button_payload(user_id,title,link):
     return  button_with_link
 
 
-def msg_with_quick_reply_and_GIF_payload(user_id,msg,title1,title2,GIF):
-    reply = {"users": [user_id], "message": { "text":msg,
-                                            "quick_replies":
-                                            [
-                                                {"content_type": "text",
-                                                 "title": title1,
-                                                 "payload": "category"
-                                                 },
 
-                                                {"content_type": "text",
-                                                 "title": title2,
-                                                 "payload": title2
-                                                 }
-
-                                            ],
-                                              "attachment": {"type": "template",
-                                                             "payload": {"template_type": "generic",
-                                                                         "elements": [{"image_url": GIF}]
-                                                                         }
-                                                             },
-                                            }
-                        }
-    return reply
-
-# https://media.giphy.com/media/QYkX9IMHthYn0Y3pcG/giphy.gif
 
 def five_game_payload(user_id,game_obj_list):
 
@@ -86,7 +64,7 @@ def five_game_payload(user_id,game_obj_list):
     print()
 
     card = pack={ "users":[user_id],
-               "message": { "attachment":{ "type":"template",
+           "message":{ "attachment":{ "type":"template",
                                       "payload":{ "template_type":"generic",
                                                   "elements":[ { "title": game_obj_list[0]['name']['en'],
                                                                  "subtitle":"",
@@ -151,6 +129,7 @@ def five_game_payload(user_id,game_obj_list):
 
 def single_game_payload(user_id,game):
 
+
     print("Game -> ",game)
     pack={ "users":[user_id],
            "message":{ "attachment":{ "type":"template",
@@ -181,50 +160,6 @@ def single_game_payload(user_id,game):
 
     return  pack
 
-
-def category_card_payload(user_id):
-    category = ['Arcade', 'Puzzle & Logic', 'Sports & Racing', 'Strategy', 'Adventure', 'Action', 'Featured']
-    from gif_Database import Action,Strategy,Adventure,Arcade,Puzzle,Sports
-    from random import randint
-    pack={ "users":[user_id],
-           "message":{ "text": "Select your favourite category ",
-                    "attachment":{ "type":"template",
-                                      "payload":{ "template_type":"generic",
-                                                  "elements":[ {
-                                                                  "image_url":Action[randint(0,4)],
-                                                                   "buttons": [{"title": "Action", 'type': "postback","payload": "Action"}]
-                                                               },
-                                                               # {   "image_url":Arcade[randint(0,4)],
-                                                               #     "buttons": [{"title": "Arcade", 'type': "postback","payload": "Arcade"}]
-                                                               #  },
-                                                               {
-                                                                  "image_url":Puzzle[randint(0,4)],
-                                                                   "buttons": [{"title": "Puzzle & Logic", 'type': "postback","payload": "Puzzle & Logic"}]
-                                                                },
-                                                               {
-                                                                  "image_url":Sports[randint(0,4)],
-                                                                   "buttons": [{"title": "Sports & Racing", 'type': "postback","payload": "Sports & Racing"}]
-                                                                },
-                                                               {
-                                                                  "image_url":Strategy[randint(0,4)],
-                                                                   "buttons": [{"title": "Strategy", 'type': "postback","payload": "Strategy"}]
-                                                                },
-                                                               {
-                                                                  "image_url":Adventure[randint(0,4)],
-                                                                   "buttons": [{"title": "Adventure", 'type': "postback","payload": "Adventure"}]
-                                                                },
-                                                              # {
-                                                              #     "image_url":"https://media.giphy.com/media/KgF61GMnMV6hlLiiaQ/giphy.gif",
-                                                              #      "buttons": [{"title": "Featured", 'type': "postback","payload": "Featured"}]
-                                                              # }
-                                                               ]
-                                                  }
-                                      },
-                       }
-           }
-
-
-    return pack
 
 # {'code': 'Sk728YXJx',
 #  'url': 'https://www.gamezop.com/g/Sk728YXJx?id=peSLSV',

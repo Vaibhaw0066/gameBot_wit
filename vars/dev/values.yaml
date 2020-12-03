@@ -1,0 +1,43 @@
+# Default values for machaao-api-service
+replicaCount: 1
+
+# K8s version of a load balancer comes in the port and goes to your service
+# on the target port
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+
+# Is your service accessible outside the cluster? Probably not, otherwise
+# lets chat.
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-messengerx
+    kubernetes.io/ingress.class: nginx
+  path: /
+  hosts:
+    - "gamebot-dev.messengerx.io"
+  tls:
+    - secretName: wildcard-messengerx-io-tls
+      hosts:
+        - '*.messengerx.io'
+
+# Environment Variables
+messengerxApiKey: 4e68be40-c2c3-11ea-895b-990de3d33865
+messengerxBaseUrl: https://ganglia-dev.machaao.com
+witApiKey: FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6
+
+# Resource for your container. Deliberately small to start
+resources:
+  limits:
+   cpu: 500m
+   memory: 750Mi
+  requests:
+   cpu: 500m
+   memory: 500Mi
+
+# the docker image your pods will use.
+image:
+  repository: registry.machaao.com/gamebot
+  pullPolicy: Always
