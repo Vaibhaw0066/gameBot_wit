@@ -1,4 +1,3 @@
-
 def text_message_payload(user_id,message):
     text_messsage={"users":   [user_id],
                "message": {"text": message},
@@ -53,8 +52,8 @@ def linked_button_payload(user_id,title,link):
     return  button_with_link
 
 
-def msg_with_quick_reply_and_GIF_payload(user_id,msg,title1,title2,GIF):
-    reply = {"users": [user_id], "message": { "text":msg,
+def msg_with_quick_reply_and_GIF_payload(user_id,title1,title2,GIF):
+    reply = {"users": [user_id], "message": {
                                             "quick_replies":
                                             [
                                                 {"content_type": "text",
@@ -79,107 +78,132 @@ def msg_with_quick_reply_and_GIF_payload(user_id,msg,title1,title2,GIF):
 
 # https://media.giphy.com/media/QYkX9IMHthYn0Y3pcG/giphy.gif
 
-def five_game_payload(user_id,game_obj_list):
-
-    print()
-    # print(game_obj_list)
-    print()
-
-    card = pack={ "users":[user_id],
-               "message": { "attachment":{ "type":"template",
-                                      "payload":{ "template_type":"generic",
-                                                  "elements":[ { "title": game_obj_list[0]['name']['en'],
-                                                                 "subtitle":"",
-                                                                  "image_url":game_obj_list[0]['assets']['cover'] ,
-                                                                   "buttons": [
-                                                                               { "title": "Preview", "type": "web_url", "url": str(game_obj_list[0]['gamePreviews']['en'])},
-                                                                               { "title": "Play", "type": "web_url", "url": game_obj_list[0]['url'] }
-                                                                               ]
-                                                                },
-                                                               {"title": game_obj_list[1]['name']['en'],
-                                                                "subtitle": "",
-                                                                "image_url": game_obj_list[1]['assets']['cover'],
-                                                                "buttons": [
-                                                                    {"title": "Preview", "type": "web_url", "url": str(
-                                                                        game_obj_list[1]['gamePreviews']['en'])},
-                                                                    {"title": "Play", "type": "web_url",
-                                                                     "url": game_obj_list[1]['url']}
-                                                                ]
-                                                                },
-                                                               {"title": game_obj_list[2]['name']['en'],
-                                                                "subtitle": "",
-                                                                "image_url": game_obj_list[2]['assets']['cover'],
-                                                                "buttons": [
-                                                                    {"title": "Preview", "type": "web_url", "url": str(
-                                                                        game_obj_list[2]['gamePreviews']['en'])},
-                                                                    {"title": "Play", "type": "web_url",
-                                                                     "url": game_obj_list[2]['url']}
-                                                                ]
-                                                                },
-                                                               {"title": game_obj_list[3]['name']['en'],
-                                                                "subtitle": "",
-                                                                "image_url": game_obj_list[3]['assets']['cover'],
-                                                                "buttons": [
-                                                                    {"title": "Preview", "type": "web_url", "url": str(
-                                                                        game_obj_list[3]['gamePreviews']['en'])},
-                                                                    {"title": "Play", "type": "web_url",
-                                                                     "url": game_obj_list[3]['url']}
-                                                                ]
-                                                                },
-                                                               {"title": game_obj_list[4]['name']['en'],
-                                                                "subtitle": "",
-                                                                "image_url": game_obj_list[4]['assets']['cover'],
-                                                                "buttons": [
-                                                                    {"title": "Preview", "type": "web_url", "url": str(
-                                                                        game_obj_list[4]['gamePreviews']['en'])},
-                                                                    {"title": "Play", "type": "web_url",
-                                                                     "url": game_obj_list[4]['url']}
-                                                                ]
-                                                                }
-
-                                                             ]
-                                                  }
-                                      }
-                       }
-           }
-
-    return  card
+# def five_game_payload(user_id,game_obj_list):
+#
+#     print()
+#     # print(game_obj_list)
+#     # print(game_obj_list)
+#     # print("url working ----->>>>",game_obj_list[0]['url'])
+#
+#     card = pack={ "users":[user_id],
+#                "message": { "attachment":{ "type":"template",
+#                                       "payload":{ "template_type":"generic",
+#                                                   # "default_action": {"type": "web_url", "url": game_obj_list[0]['url']},
+#                                                   "elements":[
+#
+#                                                                 { "title": game_obj_list[0]['name']['en'],
+#                                                                   "default_action": {"type": "web_url", "url": game_obj_list[0]['url']},
+#                                                                  "subtitle":"Rating  4.8",
+#                                                                   "image_url":game_obj_list[0]['assets']['cover'] ,
+#                                                                    "buttons": [
+#                                                                                { "title": "Preview", "type": "web_url", "url": str(game_obj_list[0]['gamePreviews']['en'])},
+#                                                                                { "title": "Play", "type": "web_url", "url": game_obj_list[0]['url'] }
+#                                                                                ]
+#                                                                 },
+#                                                                {"title": game_obj_list[1]['name']['en'],
+#                                                                 "subtitle": "",
+#                                                                 "default_action": {"type": "web_url", "url": game_obj_list[1]['url']},
+#                                                                 "image_url": game_obj_list[1]['assets']['cover'],
+#                                                                 "buttons": [
+#                                                                     {"title": "Preview", "type": "web_url", "url": str(
+#                                                                         game_obj_list[1]['gamePreviews']['en'])},
+#                                                                     {"title": "Play", "type": "web_url",
+#                                                                      "url": game_obj_list[1]['url']}
+#                                                                 ]
+#                                                                 },
+#                                                                {"title": game_obj_list[2]['name']['en'],
+#                                                                 "subtitle": "",
+#                                                                 "default_action": {"type": "web_url", "url": game_obj_list[2]['url']},
+#                                                                 "image_url": game_obj_list[2]['assets']['cover'],
+#                                                                 "buttons": [
+#                                                                     {"title": "Preview", "type": "web_url", "url": str(
+#                                                                         game_obj_list[2]['gamePreviews']['en'])},
+#                                                                     {"title": "Play", "type": "web_url",
+#                                                                      "url": game_obj_list[2]['url']}
+#                                                                 ]
+#                                                                 },
+#                                                                {"title": game_obj_list[3]['name']['en'],
+#                                                                 "subtitle": "",
+#                                                                 "default_action": {"type": "web_url", "url": game_obj_list[3]['url']},
+#                                                                 "image_url": game_obj_list[3]['assets']['cover'],
+#                                                                 "buttons": [
+#                                                                     {"title": "Preview", "type": "web_url", "url": str(
+#                                                                         game_obj_list[3]['gamePreviews']['en'])},
+#                                                                     {"title": "Play", "type": "web_url",
+#                                                                      "url": game_obj_list[3]['url']}
+#                                                                 ]
+#                                                                 },
+#                                                                {"title": game_obj_list[4]['name']['en'],
+#                                                                 "subtitle": "",
+#                                                                 "default_action": {"type": "web_url", "url": game_obj_list[4]['url']},
+#                                                                 "image_url": game_obj_list[4]['assets']['cover'],
+#                                                                 "buttons": [
+#                                                                     {"title": "Preview", "type": "web_url", "url": str(
+#                                                                         game_obj_list[4]['gamePreviews']['en'])},
+#                                                                     {"title": "Play", "type": "web_url",
+#                                                                      "url": game_obj_list[4]['url']}
+#                                                                 ]
+#                                                                 }
+#
+#                                                              ]
+#                                                   }
+#                                       }
+#                        }
+#            }
+#
+#     return  card
 
 
 # 'Game Plays :'+ str(game_obj_list[0]['gamePlays']   -> gameplays
 
 
-def single_game_payload(user_id,game):
+def game_payload(user_id,game):
 
-    print("Game -> ",game)
+
+    game=list(game)
+    print(len(game)," games are sending")
+
     pack={ "users":[user_id],
            "message":{ "attachment":{ "type":"template",
                                       "payload":{ "template_type":"generic",
-                                                  "elements":[ { "title": game['name']['en'],
-                                                                 "subtitle":"",
-                                                                  "image_url":game['assets']['cover'] ,
-                                                                   "buttons": [
-                                                                               { "title": "Preview", "type": "web_url", "url": str(game['gamePreviews']['en'])},
-                                                                               { "title": "Play", "type": "web_url", "url": game['url'] }
-                                                                               ]
-                                                                }
-
-                                                             ]
-                                                  }
+                                                  "elements":[ ]
+                                                }
                                       },
-                       "quick_replies":
-                           [
-                               {"content_type": "text",
-                                "title": "more",
-                                "payload": "more"
-                                }
-                           ]
                        }
            }
 
+    for g in game:
+        g = {"title": g['name']['en'],
+             "subtitle": "",
+             "image_url": g['assets']['cover'],
+             "buttons": [{"title": "Preview", "type": "web_url", "url": str(g['gamePreviews']['en'])},
+                         {"title": "Play", "type": "web_url", "url": g['url']}]
+             }
 
+        pack["message"]["attachment"]["payload"]["elements"].append(g)
+
+    print("**********************************************************************************************************************************************")
+
+    print(pack)
+    print("**********************************************************************************************************************************************")
 
     return  pack
+# from get_games import top_5_games
+# print(game_payload("18BCS6714",top_5_games()))
+
+headers = {
+    'api_token': 'API_TOKEN',
+    'Content-Type': 'application/json',
+}
+#
+# data = {
+#   '{ "users":["<!-- UNIQUE_USER_ID -->"], "message":{ "attachment":{ "type":"template", "payload":{ "template_type":"generic", "elements":[ { "title": "Test #786 - Duffle Bag   200 Machaao Credits", "subtitle":"Only Pay Shipping ': '',
+#   ' Handling Charges. Combo Offer for Machaao Users only.", "image_url":"https://provogue.s3.amazonaws.com/provogue-duffle1.jpg", "buttons": [{ "title": "Hi", "type": "postback", "payload": "hi" }, { "title": "Source", "type": "web_url", "url": "https://provogue.s3.amazonaws.com/provogue-duffle1.jpg" }] }, { "title": "Test #787 - Duffle Bag   200 Machaao Credits", "subtitle":"Only Pay Shipping ': '',
+#   ' Handling Charges. Combo Offer for Machaao Users only.", "image_url":"https://provogue.s3.amazonaws.com/provogue-duffle1.jpg", "buttons": [{ "title": "Hi", "type": "postback", "payload": "hi" }, { "title": "Source", "type": "web_url", "url": "https://provogue.s3.amazonaws.com/provogue-duffle1.jpg" }] } ] } }, "quick_replies": [{ "content_type": "text", "title": "Hi", "payload": "hi" }] } }': ''
+# }
+
+# response = requests.post('https://ganglia-dev.machaao.com/v1/messages/send', headers=headers, data=data)
+
 
 
 def category_card_payload(user_id):
@@ -187,13 +211,13 @@ def category_card_payload(user_id):
     from gif_Database import Action,Strategy,Adventure,Arcade,Puzzle,Sports
     from random import randint
     pack={ "users":[user_id],
-           "message":{ "text": "Select your favourite category ",
+           "message":{
                     "attachment":{ "type":"template",
                                       "payload":{ "template_type":"generic",
-                                                  "elements":[ {
+                                                  "elements":[{
                                                                   "image_url":Action[randint(0,4)],
                                                                    "buttons": [{"title": "Action", 'type': "postback","payload": "Action"}]
-                                                               },
+                                                              },
                                                                # {   "image_url":Arcade[randint(0,4)],
                                                                #     "buttons": [{"title": "Arcade", 'type': "postback","payload": "Arcade"}]
                                                                #  },

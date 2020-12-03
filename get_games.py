@@ -60,38 +60,50 @@ def single_game():
     return game_details
 
 
-def get_game_by_keyword(keyword):
+def get_game_by_keyword(keywords):
     matches=[]
     with open('games_2020-11-16.json','r') as games:
         # print(len(json.load(games)['games']))
+        print("keywords searching ->",list(map(str,(keywords).split())))
         for a in (json.load(games)['games']):
-            if  re.search(keyword.lower(),str(a['description']['en']).lower())  or \
-                    re.search(keyword.lower() , str(a['name']['en']).lower()) or \
-                    re.search(keyword.lower() , str(a['tags']['en']).lower()) or \
-                    re.search(keyword.lower(),str(a['categories']['en']).lower()):
-                matches.append(a)
+            for keyword in list(map(str,(keywords).split())):
+                if  re.search(keyword.lower(),str(a['description']['en']).lower())  or \
+                        re.search(keyword.lower() , str(a['name']['en']).lower()) or \
+                        re.search(keyword.lower() , str(a['tags']['en']).lower()) or \
+                        re.search(keyword.lower(),str(a['categories']['en']).lower()):
+                    matches.append(a)
 
-                # print(a['name']['en'],a['description']['en'], a['url'])
-            # print(a)
     return matches
-
+# print(len(get_game_by_keyword('cricket games ')))
+# print(re.search("cricket games ".lower()," hi , wanna play some cricket".lower()))
 def get_five_games_by_keyword(keyword):
     matches=[]
 
     with open('games_2020-11-16.json','r') as games:
         # print(len(json.load(games)['games']))
-
         while len(matches)<5:
-            for keywords  in list(keyword):
-                for a in (json.load(games)['games']):
+            for a in json.load(games)['games']:
+                for keywords in list(keyword):
+                    # for a in (json.load(games)['games']):
+                    #     print(a)
                     if  re.search(keywords.lower(),str(a['description']['en']).lower())  or \
-                         re.search(keywords.lower() , str(a['name']['en']).lower()) or \
-                         re.search(keywords.lower() , str(a['tags']['en']).lower()) or \
-                         re.search(keywords.lower(),str(a['categories']['en']).lower()):
+                 re.search(keywords.lower() , str(a['name']['en']).lower()) or \
+                 re.search(keywords.lower() , str(a['tags']['en']).lower()) or \
+                 re.search(keywords.lower(),str(a['categories']['en']).lower()):
                         matches.append(a)
+        # while len(matches)<5:
+        #     for keywords  in list(keyword):
+        #         for a in (json.load(games)['games']):
+        #             print(a)
+                    # if  re.search(keywords.lower(),str(a['description']['en']).lower())  or \
+                    #      re.search(keywords.lower() , str(a['name']['en']).lower()) or \
+                    #      re.search(keywords.lower() , str(a['tags']['en']).lower()) or \
+                    #      re.search(keywords.lower(),str(a['categories']['en']).lower()):
+                    #     matches.append(a)
 
                 # print(a['name']['en'],a['description']['en'], a['url'])
             # print(a)
+    # print(len(matches))
     return matches
 
 
@@ -148,24 +160,28 @@ def games_by_category(category):
         if g not in games:
             games.append(g)
 
-    print("----------------------------Sending games :-----------------------------")
+    """print("----------------------------Sending games :-----------------------------")
     for i in games:
         print(i)
-    print("----------------------------Sending games :-----------------------------")
+    print("----------------------------Sending games :-----------------------------")"""
     return games
-print(games_by_category("strategy"))
+# print(games_by_category("strategy"))
 category = ['arcade','puzzle','logic','sports','racing','strategy','adventure','action','featured']
 
 
 def is_category(category,reply_text):
     print(category,reply_text)
 
+    if len(reply_text)==0:
+        return None
     for cat in category:
         print("CAT ->", cat, " reply ->", str(list(reply_text)[0]).lower())
         if re.search(cat.lower(),str(list(reply_text)[0]).lower()):
             return  cat
     print("None found !")
     return None
+
+
 
 # print(is_category(category,{['action']}))
 # from reply_methods import  five_game_payload
@@ -175,6 +191,6 @@ def is_category(category,reply_text):
 # print(payload)
 
 
-# get_games_by_keyword("arcade")
+# print(get_five_games_by_keyword("Get me cricket games"))
 # print(pc_or_mobile_game(mobile=False))
 # print(len(get_games_by_keyword('racing')))
