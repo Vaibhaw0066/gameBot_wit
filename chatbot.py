@@ -23,7 +23,7 @@ MESSENGERX_API_TOKEN = os.environ.get('MX_API_TOKEN')
 # For development use https://ganglia-dev.machaao.com
 MESSENGERX_BASE_URL = os.environ.get('MX_BASE_URL')
 
-if (!MESSENGERX_BASE_URL or !MESSENGERX_API_TOKEN or !SERVER_ACCESS_TOKEN):
+if (not MESSENGERX_BASE_URL or not MESSENGERX_API_TOKEN or not SERVER_ACCESS_TOKEN):
     sys.exit('Env Var not provided')
 
 from wit import  Wit
