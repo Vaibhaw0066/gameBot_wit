@@ -4,7 +4,7 @@ import requests
 import re
 import json
 import argparse
-import os
+import os, sys
 import  random
 
 from machaao import request_handler, send_message
@@ -14,14 +14,17 @@ from reply_methods import text_message_payload,quick_reply_payload,msg_with_quic
 from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category,get_five_games_by_keyword
 
 # Wit Server accesss token
-SERVER_ACCESS_TOKEN  = 'FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6'
+SERVER_ACCESS_TOKEN  = os.environ.get('WIT_API_TOKEN')
 
 
 # Get your MESSENGERX_API_TOKEN from https://portal.messengerx.io
-MESSENGERX_API_TOKEN = '4e68be40-c2c3-11ea-895b-990de3d33865'
+MESSENGERX_API_TOKEN = os.environ.get('MX_API_TOKEN')
 
 # For development use https://ganglia-dev.machaao.com
-MESSENGERX_BASE_URL = 'https://ganglia-dev.machaao.com'
+MESSENGERX_BASE_URL = os.environ.get('MX_BASE_URL')
+
+if (!MESSENGERX_BASE_URL or !MESSENGERX_API_TOKEN or !SERVER_ACCESS_TOKEN):
+    sys.exit('Env Var not provided')
 
 from wit import  Wit
 def get_response(msg,SERVER_ACCESS_TOKEN):
