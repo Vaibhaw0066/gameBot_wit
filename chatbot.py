@@ -1,7 +1,3 @@
-# Bot Template: A simple sample echo bot to get started.
-# Platform: MessengerX.io
-# Author: @Abhishek Raj, Kumar Vaibhaw
-# pip3 freeze > requirements.txt
 from flask import request, jsonify, Response
 from flask_api import FlaskAPI, status
 import requests
@@ -9,22 +5,23 @@ import re
 import json
 import argparse
 import os
+import  random
 
 from machaao import request_handler, send_message
 
-from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,single_game_payload,five_game_payload
+from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,game_payload,msg_with_quick_reply_and_GIF_payload,category_card_payload
 
-from get_games import update_game_data,top_5_games,single_game
+from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category,get_five_games_by_keyword
 
 # Wit Server accesss token
-SERVER_ACCESS_TOKEN  = os.environ['WIT_API_KEY']
+SERVER_ACCESS_TOKEN  = 'FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6'
 
 
 # Get your MESSENGERX_API_TOKEN from https://portal.messengerx.io
-MESSENGERX_API_TOKEN = os.environ['MESSENGERX_API_KEY']
+MESSENGERX_API_TOKEN = '4e68be40-c2c3-11ea-895b-990de3d33865'
 
 # For development use https://ganglia-dev.machaao.com
-MESSENGERX_BASE_URL = os.environ['MESSENGERX_BASE_URL']
+MESSENGERX_BASE_URL = 'https://ganglia-dev.machaao.com'
 
 from wit import  Wit
 def get_response(msg,SERVER_ACCESS_TOKEN):
@@ -82,6 +79,7 @@ def messageHandler():
     # Write your code here.
 
     response = get_response(message,SERVER_ACCESS_TOKEN)
+
     print("message ",message)
     # print(list(response.keys()), "   ->   game_mode" in (list(response.keys())))
     print(response)
@@ -89,44 +87,76 @@ def messageHandler():
     payload = ""
 
     # intent list = [greet, game_mode, latest_game, top_5_games, goodbye]
+    category = ['Arcade','Puzzle','Logic','Sports','Racing','Strategy','Adventure','Action','Featured']
 
     if('greet' in list(response.keys())):
-        payload=  msg_with_quick_reply_payload(user_id,"Hello, I am gameBot, would you like to play some games ?","yes","no")
-
+        from gif_Database import hello
+        msg="Hello, I am gameBot, would you like to play some games ?"
+        msg=text_message_payload(user_id,msg)
+        send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
+        payload=  msg_with_quick_reply_and_GIF_payload(user_id,"yes","no",hello[random.randint(0,len(hello)-1)])
+    elif ('category' in list(response.keys())):
+        msg = {"users": [user_id], "message": {"text": "Select your favourite category "}}
+        send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
+        payload= category_card_payload(user_id)
     elif ("affirm" in list(response.keys())):
-        payload = single_game_payload(user_id,single_game())
+        payload = game_payload(user_id,single_game())
 
     elif ("deny" in list(response.keys())):
         payload=msg_with_quick_reply_payload(user_id,"Try our best top 5 games","yes","")
 
     elif ('game_mode' in list(response.keys())):
-        payload = five_game_payload(user_id,top_5_games())
+        payload = game_payload(user_id,top_5_games())
 
-    elif ("lates_game" in list(response.keys())):
-        payload=five_game_payload(user_id,top_5_games())
+    elif ("latest_game" in list(response.keys())):
+        payload=game_payload(user_id,top_5_games())
+
+    elif is_category(category,response.keys()):
+        print(response.keys())
+        payload=game_payload(user_id,games_by_category(is_category(category,response.keys())))
 
     elif('goodbye' in list(response.keys())):
         payload=msg_with_quick_reply_payload(user_id,"B,bye Have a nice day !","Start again","Exit")
+    else:
+        games=get_game_by_keyword(message)
+        if(len(games)==0):
+            msg="Opps ! Sorry, we did'nt found any game matching to this keyword"
+            msg = text_message_payload(user_id, msg)
+            send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
+            msg="Please, try to find with some other keyword"
+            msg = text_message_payload(user_id, msg)
+            send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
+        else:
+            msg="Best match for your search"
+            msg=text_message_payload(user_id,msg)
+            send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
+            msg = "Hurray, we got "+str(len(games))+" games for you"
+            msg = text_message_payload(user_id, msg)
+            send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
+            payload=game_payload(user_id,games)
 
+    response = send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, payload)
     print(f"sending message -> using token: {MESSENGERX_API_TOKEN}, base_url: {MESSENGERX_BASE_URL}")
-
-
     # Read more about APIs here: https://ganglia.machaao.com/api-docs/#/
     # or here https://messengerx.readthedocs.io/en/latest/ or here
     # https://github.com/machaao/machaao-py
+    """msg = {"users": [user_id], "message": {"text": "Select your favourite category "}}
+    send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
+    payload = five_game_payload(user_id, games_by_category(is_category(category, response.keys())))
     response = send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, payload)
+    """
 
+    print("------------------------------------------------")
+    print(response)
+    print("------------------------------------------------")
     output_payload = {
         "success": True,
         "message": response.text,
     }
-
     return Response(
         mimetype="application/json",
         response=json.dumps(output_payload),
-        status=200,
-    )
-
+        status=200,)
 
 if __name__ == "__main__":
     _port = 5000
