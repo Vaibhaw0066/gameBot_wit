@@ -60,20 +60,43 @@ def single_game():
     return game_details
 
 
+
 def get_game_by_keyword(keywords):
     matches=[]
     with open('games_2020-11-16.json','r') as games:
         # print(len(json.load(games)['games']))
-        print("keywords searching ->",list(map(str,(keywords).split())))
+        game_keywords = ['car', 'football', 'cricket', 'chess', 'building', 'criss', 'cross', 'criss-cross', 'card', 'board',
+                    'hunt', 'treasure', 'memory', 'brain', 'checkers', 'bubble', 'bubbles', 'box', 'pokemon', 'test', 't',
+                    'twenty','t-twenty', 't-20', 'space', 'sack','defence', 'military', 'fighter', 'fighting', 'fight',
+                    'combat', 'kombat', 'war', 'racing', 'bike','bus', 'shoot', 'shooting','shotting','shoting', 'fireballs','fireball', 'ball'
+                    ,'bowl' ,'race', 'racing', 'missiles', 'missile', 'classic', 'aim', 'aiming', 'gravity','hard']
+        sentence_fillers=['me','i','get','find','show','you','am','are','some']
+        keywords_list=list(map(str,(keywords).split()))
+
+        print(keywords_list)
+        loop=1
+        final_list=[]
+        for k in keywords_list:
+            print("Loop count = ", loop, " for -> ",k)
+            if not (k in sentence_fillers or k not in game_keywords):
+                print("removed -> ",k)
+                final_list.append(k)
+                loop += 1
+
+        keywords_list=final_list
+        print("keywords searching ->", keywords_list)
+
         for a in (json.load(games)['games']):
-            for keyword in list(map(str,(keywords).split())):
+            for keyword in keywords_list:
                 if  re.search(keyword.lower(),str(a['description']['en']).lower())  or \
                         re.search(keyword.lower() , str(a['name']['en']).lower()) or \
                         re.search(keyword.lower() , str(a['tags']['en']).lower()) or \
                         re.search(keyword.lower(),str(a['categories']['en']).lower()):
                     matches.append(a)
-
     return matches
+
+
+
 # print(len(get_game_by_keyword('cricket games ')))
 # print(re.search("cricket games ".lower()," hi , wanna play some cricket".lower()))
 def get_five_games_by_keyword(keyword):
