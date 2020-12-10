@@ -173,7 +173,7 @@ def game_payload(user_id,game):
            }
 
     for g in game:
-        g = {"title": g['name']['en'],
+        g = {"title": g['name']['en'] +" - "str(g['gamePlays']),
              "subtitle": "Game Plays  " +str(g['gamePlays']),
              "image_url": g['assets']['cover'],
              "buttons": [{"title": "Preview", "type": "web_url", "url": str(g['gamePreviews']['en'])},
