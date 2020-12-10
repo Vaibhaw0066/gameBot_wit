@@ -9,7 +9,7 @@ import  random
 
 from machaao import request_handler, send_message
 
-from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,game_payload,msg_with_quick_reply_and_GIF_payload,category_card_payload
+from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,game_payload,GIF_payload,category_card_payload
 
 from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category,get_five_games_by_keyword
 
@@ -94,10 +94,12 @@ def messageHandler():
 
     if('greet' in list(response.keys())):
         from gif_Database import hello
-        msg="Hello, I am gameBot, would you like to play some games ?"
-        msg=text_message_payload(user_id,msg)
+
+
+        msg=GIF_payload(user_id,hello[random.randint(0,len(hello)-1)])
         send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
-        payload=  msg_with_quick_reply_and_GIF_payload(user_id,"yes","no",hello[random.randint(0,len(hello)-1)])
+        msg = "Hello, I am gameBot, would you like to play some games ?"
+        payload=  msg_with_quick_reply_payload(user_id,msg,"Yes","No")
     elif ('category' in list(response.keys())):
         msg = {"users": [user_id], "message": {"text": "Select your favourite category "}}
         send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
