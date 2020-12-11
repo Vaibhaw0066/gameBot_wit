@@ -217,3 +217,27 @@ def is_category(category,reply_text):
 # print(get_five_games_by_keyword("Get me cricket games"))
 # print(pc_or_mobile_game(mobile=False))
 # print(len(get_games_by_keyword('racing')))
+
+
+#  Utility method :
+def get_figures(num):
+    num=float(num)
+    x=num/1000000000
+    if(x>1):
+        # print(round(x,2),' billion')
+        return str(round(x,2))+'B'
+
+    x=num/1000000
+    if(x>1):
+        # print(round(x,2), 'million')
+
+        return str(round(x,2))+'M'
+
+    x=num/1000
+    if(x>1):
+        return str(round(x,2)) + 'k'
+
+    return str(num)
+
+
+
