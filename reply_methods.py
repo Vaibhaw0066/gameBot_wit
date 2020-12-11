@@ -146,7 +146,7 @@ def GIF_payload(user_id,GIF):
 
 def game_payload(user_id,game):
 
-
+    from get_games import get_figures
     game=list(game)
     print(len(game)," games are sending")
 
