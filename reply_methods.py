@@ -161,7 +161,7 @@ def game_payload(user_id,game):
 
     for g in game:
         g = {"title": g['name']['en'],
-             "subtitle": "Total game plays  " +str(g['gamePlays']),
+             "subtitle": "Total game plays  " +str(get_figures(g['gamePlays'])),
              "image_url": g['assets']['cover'],
              "buttons": [{"title": "Preview", "type": "web_url", "url": str(g['gamePreviews']['en'])},
                          {"title": "Play", "type": "web_url", "url": g['url']}]
