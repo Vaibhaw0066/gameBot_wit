@@ -95,7 +95,6 @@ def messageHandler():
     if('greet' in list(response.keys())):
         from gif_Database import hello
 
-
         msg=GIF_payload(user_id,hello[random.randint(0,len(hello)-1)])
         send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
         msg = "Hello, I am gameBot, would you like to play some games ?"
@@ -105,8 +104,7 @@ def messageHandler():
         send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
         payload= category_card_payload(user_id)
     elif ("affirm" in list(response.keys())):
-        payload = game_payload(user_id,single_game())
-
+        payload = category_card_payload(user_id)
     elif ("deny" in list(response.keys())):
         payload=msg_with_quick_reply_payload(user_id,"Try our best top 5 games","yes","")
 
