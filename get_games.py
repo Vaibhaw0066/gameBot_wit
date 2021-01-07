@@ -63,6 +63,8 @@ def single_game():
 
 def get_game_by_keyword(keywords):
     matches=[]
+    keywords=keywords.lower()
+
     with open('games_2020-11-16.json','r') as games:
         # print(len(json.load(games)['games']))
         game_keywords = ['car', 'football', 'cricket', 'chess', 'building', 'criss', 'cross', 'criss-cross', 'card', 'board',
