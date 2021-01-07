@@ -223,18 +223,18 @@ def is_category(category,reply_text):
 def get_figures(num):
     num=float(num)
     x=num/1000000000
-    if(x>1):
+    if(x>=1):
         # print(round(x,2),' billion')
         return str(round(x,2))+'B'
 
     x=num/1000000
-    if(x>1):
+    if(x>=1):
         # print(round(x,2), 'million')
 
         return str(round(x,2))+'M'
 
     x=num/1000
-    if(x>1):
+    if(x>=1):
         return str(round(x,2)) + 'k'
 
     return str(num)
