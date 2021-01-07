@@ -91,3 +91,5 @@ python3 chatbot.py
 python chatbot.py
 ```
 #### NOTE: UNDER ACTIVE DEVELOPMENT (ACCEPTING PULL REQUESTS)
+
+[![SC2 Video](https://img.youtube.com/vi/--b-9HrKK6w/0.jpg)](http://www.youtube.com/watch?v=--b-9HrKK6w)
