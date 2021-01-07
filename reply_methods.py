@@ -52,27 +52,14 @@ def linked_button_payload(user_id,title,link):
     return  button_with_link
 
 
-def msg_with_quick_reply_and_GIF_payload(user_id,title1,title2,GIF):
+def GIF_payload(user_id,GIF):
     reply = {"users": [user_id], "message": {
-                                            "quick_replies":
-                                            [
-                                                {"content_type": "text",
-                                                 "title": title1,
-                                                 "payload": "category"
-                                                 },
-
-                                                {"content_type": "text",
-                                                 "title": title2,
-                                                 "payload": title2
-                                                 }
-
-                                            ],
-                                              "attachment": {"type": "template",
-                                                             "payload": {"template_type": "generic",
-                                                                         "elements": [{"image_url": GIF}]
-                                                                         }
-                                                             },
-                                            }
+                                            "attachment": {"type": "template",
+                                                            "payload": {"template_type": "generic",
+                                                            "elements": [{"image_url": GIF}]
+                                                                        }
+                                                            },
+                                           }
                         }
     return reply
 
@@ -159,7 +146,7 @@ def msg_with_quick_reply_and_GIF_payload(user_id,title1,title2,GIF):
 
 def game_payload(user_id,game):
 
-
+    from get_games import get_figures
     game=list(game)
     print(len(game)," games are sending")
 
@@ -174,7 +161,7 @@ def game_payload(user_id,game):
 
     for g in game:
         g = {"title": g['name']['en'],
-             "subtitle": "",
+             "subtitle": "Total game plays  " +str(get_figures(g['gamePlays'])),
              "image_url": g['assets']['cover'],
              "buttons": [{"title": "Preview", "type": "web_url", "url": str(g['gamePreviews']['en'])},
                          {"title": "Play", "type": "web_url", "url": g['url']}]
