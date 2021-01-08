@@ -11,23 +11,31 @@ from machaao import request_handler, send_message
 
 from reply_methods import text_message_payload,quick_reply_payload,msg_with_quick_reply_payload,linked_button_payload,game_payload,GIF_payload,category_card_payload
 
-from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category,get_five_games_by_keyword
+from get_games import update_game_data,top_5_games,single_game,is_category,get_game_by_keyword,games_by_category
 
 # Wit Server accesss token
 SERVER_ACCESS_TOKEN  = os.environ.get('WIT_API_TOKEN')
-
+# SERVER_ACCESS_TOKEN = 'FZBT3JD7YVFADKMSAODFBVUPGAJTG4S6'
 
 # Get your MESSENGERX_API_TOKEN from https://portal.messengerx.io
 MESSENGERX_API_TOKEN = os.environ.get('MX_API_TOKEN')
+# MESSENGERX_API_TOKEN ='4e68be40-c2c3-11ea-895b-990de3d33865'
 
 # For development use https://ganglia-dev.machaao.com
 MESSENGERX_BASE_URL = os.environ.get('MX_BASE_URL')
+# MESSENGERX_BASE_URL = 'https://ganglia-dev.machaao.com'
 
 if (not MESSENGERX_BASE_URL or not MESSENGERX_API_TOKEN or not SERVER_ACCESS_TOKEN):
     sys.exit('Env Var not provided')
 
+
+
 from wit import  Wit
 def get_response(msg,SERVER_ACCESS_TOKEN):
+    """
+    Methods gets the intent-confidence in dictionary
+    format (form wit-ai) for a given input
+    """
     client=Wit(SERVER_ACCESS_TOKEN)
     response=client.message(msg)
 
@@ -39,14 +47,7 @@ def get_response(msg,SERVER_ACCESS_TOKEN):
             intent_confidence = {}
             intent_confidence[res['name']]=res['confidence']
             confidence.append(res['confidence'])
-
-    # retyrn format {'game_mode': 0.9968}
-
     return intent_confidence
-
-# Updating database
-# update_game_data()
-
 
 
 app = FlaskAPI(__name__)
@@ -67,7 +68,6 @@ def messageHandler():
     """
     Incoming message handler.
     """
-
     # Edit this function the way you want.
 
     incoming_data = request_handler(request)
@@ -84,7 +84,6 @@ def messageHandler():
     response = get_response(message,SERVER_ACCESS_TOKEN)
 
     print("message ",message)
-    # print(list(response.keys()), "   ->   game_mode" in (list(response.keys())))
     print(response)
     print()
     payload = ""
@@ -93,34 +92,63 @@ def messageHandler():
     category = ['Arcade','Puzzle','Logic','Sports','Racing','Strategy','Adventure','Action','Featured']
 
     if('greet' in list(response.keys())):
-        from gif_Database import hello
 
+        """
+        updating payload for sending greetings[GIF + message + CTA]
+        """
+
+        from gif_Database import hello
         msg=GIF_payload(user_id,hello[random.randint(0,len(hello)-1)])
         send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
         msg = "Hello, I am gameBot, would you like to play some games ?"
         payload=  msg_with_quick_reply_payload(user_id,msg,"Yes","No")
+
     elif ('category' in list(response.keys())):
+
+        """
+        updating payload for sending categories available 
+        """
+
         msg = {"users": [user_id], "message": {"text": "Select your favourite category "}}
         send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
         payload= category_card_payload(user_id)
+
+
     elif ("affirm" in list(response.keys())):
         payload = category_card_payload(user_id)
     elif ("deny" in list(response.keys())):
-        payload=msg_with_quick_reply_payload(user_id,"Try our best top 5 games","yes","")
+        payload=msg_with_quick_reply_payload(user_id,"Try our best top 5 games category","Yes","Exit")
 
     elif ('game_mode' in list(response.keys())):
+        """
+        updating payload to send 5 games
+        """
         payload = game_payload(user_id,top_5_games())
 
     elif ("latest_game" in list(response.keys())):
+        """
+        updating payload to send latest/top 5 games
+        """
         payload=game_payload(user_id,top_5_games())
 
     elif is_category(category,response.keys()):
-        print(response.keys())
+
+        """
+        updating payload to send game of gien category
+        """
         payload=game_payload(user_id,games_by_category(is_category(category,response.keys())))
 
     elif('goodbye' in list(response.keys())):
+        """
+        updating payload for goodbye
+        """
         payload=msg_with_quick_reply_payload(user_id,"B,bye Have a nice day !","Start again","Exit")
     else:
+
+        """
+        if none of intents matched, then sending games that 
+        matches user's keywords.
+        """
         games=get_game_by_keyword(message)
         if(len(games)==0):
             msg="Opps ! Sorry, we did'nt found any game matching to this keyword"
@@ -133,7 +161,7 @@ def messageHandler():
             msg="Best match for your search"
             msg=text_message_payload(user_id,msg)
             send_message(MESSENGERX_API_TOKEN,MESSENGERX_BASE_URL,msg)
-            msg = "Hurray, we got "+str(len(games))+" games for you"
+            msg = "Hurray! we got "+str(len(games))+" games for you"
             msg = text_message_payload(user_id, msg)
             send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
             payload=game_payload(user_id,games)
@@ -143,6 +171,9 @@ def messageHandler():
     # Read more about APIs here: https://ganglia.machaao.com/api-docs/#/
     # or here https://messengerx.readthedocs.io/en/latest/ or here
     # https://github.com/machaao/machaao-py
+
+
+
     """msg = {"users": [user_id], "message": {"text": "Select your favourite category "}}
     send_message(MESSENGERX_API_TOKEN, MESSENGERX_BASE_URL, msg)
     payload = five_game_payload(user_id, games_by_category(is_category(category, response.keys())))

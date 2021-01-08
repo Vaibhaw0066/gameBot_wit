@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="502f3a88-16d3-493f-a57b-79de00b48309" name="Default Changelist" comment="" />
+    <list default="true" id="502f3a88-16d3-493f-a57b-79de00b48309" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gameBot_wit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gameBot_wit.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dev_Experiment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conversation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/games_2020-11-16.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_games.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_games.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reply_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/reply_methods.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,12 +47,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="gameBot_wit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="C:\Vaibhaw\game_Bot_wit\wiity_bot\witBot\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -76,11 +109,26 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="828" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607146392785">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1607146392785" />
+    <state x="671" y="250" key="FileChooserDialogImpl" timestamp="1610081535531">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="671" y="250" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1610081535531" />
     <state width="982" height="221" key="GridCell.Tab.0.bottom" timestamp="1607146317883">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -97,5 +145,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="982" height="221" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607146317883" />
+    <state x="393" y="140" key="SettingsEditor" timestamp="1610081578265">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="393" y="140" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1610081578265" />
   </component>
 </project>
