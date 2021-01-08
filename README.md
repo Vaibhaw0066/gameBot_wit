@@ -1,5 +1,5 @@
 # game_Bot
-
+Gamebot is a NLP based game recomendation chatbot powerd by Wit-AI, which recommends unlimited games of your choice.
 ## GameBot data flow
 ![Data flow](https://github.com/Vaibhaw0066/gameBot_wit/blob/master/Assets/GameBot%20Data%20Flow%20Diagram.png)
 
