@@ -1,7 +1,7 @@
 # game_Bot
 
 ## GameBot data flow
-![Data flow](Assets/GameBot Data Flow Diagram.png)
+![Data flow](https://github.com/Vaibhaw0066/gameBot_wit/blob/master/Assets/GameBot%20Data%20Flow%20Diagram.png)
 
 ### Minimum Requirements
 ```bash
